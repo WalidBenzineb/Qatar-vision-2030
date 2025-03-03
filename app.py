@@ -1581,7 +1581,7 @@ def render_key_indicators(min_year, max_year, language='english'):
         hci_global_compare = ""
         
     try:
-        co2_value = f"{latest_data['Annual CO₂ emissions (per capita)']:.1f} {get_translation("tonnes",language)}"
+        co2_value = f"{latest_data['Annual CO₂ emissions (per capita)']:.1f} {get_translation('tonnes', language)}"
         co2_global_compare = get_translation(f"{latest_data['Annual CO₂ emissions (per capita)'] / benchmarks['co2_per_capita']['global_avg']:.1f}x global average", language)
     except (ValueError, KeyError, TypeError):
         co2_value = get_translation("Data unavailable", language)
