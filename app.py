@@ -1,3 +1,16 @@
+"""
+Qatar Vision 2030 Dashboard
+----------------------------
+A comprehensive visualization dashboard built with Dash to monitor Qatar's progress
+towards its Vision 2030 goals across Economic, Environmental, Human, and Social
+development pillars. The dashboard presents key indicators with benchmark comparisons
+and expert insights derived from data analysis.
+
+Author: Walid Benzineb
+benzinebwal@gmail.com
+"""
+
+
 import os
 import dash
 from dash import dcc, html, Input, Output, State, callback
@@ -33,7 +46,7 @@ from economic_insights import (
     overall_economic_insights
 )
 
-# Import other insights
+# Import environmental insights
 from environmental_insights import (
     co2_insights,
     electricity_insights,
@@ -43,6 +56,7 @@ from environmental_insights import (
     agricultural_insights,
     overall_environmental_insights
 )
+# Import Human Development insights
 from human_insights import (
     educational_attainment_insights,
     education_quality_insights,
@@ -52,6 +66,7 @@ from human_insights import (
     completion_rates_insights,
     overall_human_development_insights
 )
+# Import Social Development insights
 from social_insights import (
     sanitation_insights,
     gender_equality_insights,
@@ -260,12 +275,12 @@ def create_benchmark_card(title, benchmark_data, pillar_color, language='english
     ], className="mb-4 shadow-sm hover-card", 
        style={"borderRadius": "12px", "overflow": "hidden", "backgroundColor": colors['card']})
 
-# Create a more modern header with better spacing and layout
+# Create a header 
 def create_header(language='english'):
     return dbc.Container([
         dbc.Row([
             dbc.Col([
-                # Language toggle button in the upper right with enhanced styling
+                # Language toggle button in the upper right
                 dbc.ButtonGroup(
                     [
                         dbc.Button("English", id="btn-english", 
@@ -294,7 +309,7 @@ def create_header(language='english'):
         ], className="py-4 header-row align-items-center")
     ], fluid=True, className="header-container mb-4")
 
-# Create tabs with a more modern style
+# Create tabs with a modern style
 def create_tabs(language='english', active_tab="key-indicators"):
     return dbc.Tabs([
         dbc.Tab(label=get_translation("Key Indicators", language), tab_id="key-indicators", 
@@ -319,7 +334,7 @@ def create_tabs(language='english', active_tab="key-indicators"):
                className="custom-tab"),
     ], id="tabs", active_tab=active_tab, className="mb-4 nav-tabs-modern")
 
-# Create year slider with improved styling
+# Create year slider
 def create_year_slider(language='english'):
     return dbc.Card(
         dbc.CardBody([
@@ -344,12 +359,7 @@ def create_year_slider(language='english'):
         style={"borderRadius": "16px", "backgroundColor": colors['card'], "border": "none"}
     )
 
-# Main layout with improved styling and structure and language support
-# The issue is in the app.layout and callback structure
-# Here's the corrected code for the problematic sections:
-
-# 1. First, modify the app.layout to include the initial versions of components
-# Replace the existing app.layout with this:
+# Main layout with styling and structure and language support
 
 app.layout = html.Div([
     # Store the current language
@@ -446,7 +456,7 @@ def render_tab_content(active_tab, year_range, language):
     
     return html.P(get_translation("This tab has no content.", language))
 
-# Function to create a KPI card with improved styling
+# Function to create a KPI card 
 def create_kpi_card(title, value, subtitle, comparison, icon, color, language='english'):
     translated_title = get_translation(title, language)
     translated_subtitle = get_translation(subtitle, language)
@@ -487,12 +497,12 @@ def create_kpi_card(title, value, subtitle, comparison, icon, color, language='e
     ], className="h-100 kpi-card shadow-sm", 
        style={"borderRadius": "16px", "border": "none", "overflow": "hidden", "backgroundColor": colors['card']})
 
-# Function to render Key Indicators tab with insights from PDF
+# Function to render Key Indicators tab with insights
 def render_key_indicators(min_year, max_year, language='english'):
     # Filter data by year range
     filtered_df = key_indicators_df[(key_indicators_df['Year'] >= min_year) & (key_indicators_df['Year'] <= max_year)]
     
-    # Create GDP per capita chart with improved styling and benchmark comparisons
+    # Create GDP per capita chart with benchmark comparisons
     gdp_fig = px.line(
         filtered_df, 
         x='Year', 
@@ -918,7 +928,7 @@ def render_key_indicators(min_year, max_year, language='english'):
         sanit_value = get_translation("Data unavailable", language)
         sanit_global_compare = ""
     
-    # Create more attractive key metric cards with icons and comparisons
+    # Create key metric cards with icons and comparisons
     key_cards = dbc.Row([
         dbc.Col(
             create_kpi_card(
@@ -1369,7 +1379,7 @@ def render_economic(min_year, max_year, language='english'):
         )
     )
     
-    # Create Agriculture Value chart with improved styling
+    # Create Agriculture Value chart 
     agriculture_fig = px.line(
         filtered_df,
         x='Year',
@@ -1420,7 +1430,7 @@ def render_economic(min_year, max_year, language='english'):
     )
     agriculture_fig.update_traces(line=dict(width=3), marker=dict(size=8), connectgaps=True)
     
-    # Create Business Graduates chart with improved styling
+    # Create Business Graduates chart
     business_fig = px.line(
         filtered_df,
         x='Year',
@@ -1489,7 +1499,7 @@ def render_economic(min_year, max_year, language='english'):
         gas_prod = get_translation("N/A", language)
         energy_cons = get_translation("N/A", language)
     
-    # Create KPI cards for economic section with modern styling
+    # Create KPI cards for economic section
     kpi_cards = dbc.Row([
         dbc.Col(
             create_kpi_card(
@@ -1675,7 +1685,7 @@ def render_economic(min_year, max_year, language='english'):
     
     return layout
 
-# Function to render Environmental Development tab with insights from PDF
+# Function to render Environmental Development tab with insights
 def render_environmental(min_year, max_year, language='english'):
     # Filter data by year range
     filtered_df = environmental_df[(environmental_df['Year'] >= min_year) & (environmental_df['Year'] <= max_year)]
@@ -1739,7 +1749,7 @@ def render_environmental(min_year, max_year, language='english'):
     )
     co2_fig.update_traces(line=dict(width=3), marker=dict(size=8), connectgaps=True)
     
-    # Create CO2 Emissions per capita chart with improved styling
+    # Create CO2 Emissions per capita chart
     co2_per_capita_fig = px.line(
         filtered_df,
         x='Year',
@@ -1795,7 +1805,7 @@ def render_environmental(min_year, max_year, language='english'):
     )
     co2_per_capita_fig.update_traces(line=dict(width=3), marker=dict(size=8), connectgaps=True)
     
-    # Create Energy Change chart with improved styling
+    # Create Energy Change chart
     energy_change_fig = px.bar(
         filtered_df,
         x='Year',
@@ -1845,7 +1855,7 @@ def render_environmental(min_year, max_year, language='english'):
         )
     )
     
-    # Create Electricity Production chart with cleaner labels
+    # Create Electricity Production chart with labels
     elec_df = filtered_df.copy()
     elec_df['Fossil Fuels (TWh)'] = elec_df['Electricity from fossil fuels - TWh (adapted for visualization of chart elec-fossil-nuclear-renewables)']
     elec_df['Nuclear (TWh)'] = elec_df['Electricity from nuclear - TWh (adapted for visualization of chart elec-fossil-nuclear-renewables)']
@@ -1909,7 +1919,7 @@ def render_environmental(min_year, max_year, language='english'):
         )
     )
     
-    # Create Renewable Electricity detail chart with cleaner labels
+    # Create Renewable Electricity detail chart with labels
     renew_df = filtered_df.copy()
     renew_df['Solar (TWh)'] = renew_df['Electricity from solar - TWh (adapted for visualization of chart electricity-prod-source-stacked)']
     renew_df['Bioenergy (TWh)'] = renew_df['Electricity from bioenergy - TWh (adapted for visualization of chart electricity-prod-source-stacked)']
@@ -2067,7 +2077,7 @@ def render_environmental(min_year, max_year, language='english'):
         renewable_electricity = get_translation("N/A", language)
         solar_capacity = get_translation("N/A", language)
     
-    # Create KPI cards for environmental section with modern styling
+    # Create KPI cards for environmental section
     kpi_cards = dbc.Row([
         dbc.Col(
             create_kpi_card(
@@ -2192,7 +2202,7 @@ def render_environmental(min_year, max_year, language='english'):
             ),
         ], className="chart-row align-items-stretch"),
         
-        # Energy Change insights and card (newly added)
+        # Energy Change insights and card
         dbc.Row([
             dbc.Col(create_insight_card("Energy Consumption Change", energy_change_insights, colors['environmental'], language), 
                    width={"size": 5, "order": 1 if language == "english" else 12}, 
@@ -2225,7 +2235,7 @@ def render_environmental(min_year, max_year, language='english'):
             ], width={"size": 7, "order": 12 if language == "english" else 1}, className="mb-4"),
         ], className="chart-row align-items-stretch"),
         
-        # Renewable detail chart with newly added insights
+        # Renewable detail chart with insights
         dbc.Row([
             dbc.Col(
                 html.Div(dcc.Graph(figure=renewable_detail_fig), className="chart-container shadow-sm"),
@@ -2243,12 +2253,12 @@ def render_environmental(min_year, max_year, language='english'):
     
     return layout
 
-# Function to render Human Development tab with insights from PDF
+# Function to render Human Development tab with insights
 def render_human(min_year, max_year, language='english'):
     # Filter data by year range
     filtered_df = human_df[(human_df['Year'] >= min_year) & (human_df['Year'] <= max_year)]
     
-    # Create Education Level charts with shortened labels and improved layout
+    # Create Education Level charts with labels layout
     # Create a copy of the dataframe with shorter column names
     edu_df = filtered_df.copy()
     edu_df['Primary Education (%)'] = edu_df['UIS: Percentage of population age 25+ with at least completed primary education (ISCED 1 or higher). Total']
@@ -2377,7 +2387,7 @@ def render_human(min_year, max_year, language='english'):
     )
     advanced_edu_fig.update_traces(line=dict(width=3), marker=dict(size=8), connectgaps=True)
     
-    # Create Completion Rate charts with improved styling
+    # Create Completion Rate charts
     completion_rate_fig = px.line(
         filtered_df,
         x='Year',
@@ -2438,7 +2448,7 @@ def render_human(min_year, max_year, language='english'):
     )
     completion_rate_fig.update_traces(line=dict(width=3), marker=dict(size=8), connectgaps=True)
     
-    # Create School Life Expectancy chart with improved styling
+    # Create School Life Expectancy chart
     school_life_fig = px.line(
         filtered_df,
         x='Year',
@@ -2556,7 +2566,7 @@ def render_human(min_year, max_year, language='english'):
         learning_value = get_translation("N/A", language)
         learning_global_compare = ""
     
-    # Create KPI cards for human development section with modern styling
+    # Create KPI cards for human development section
     kpi_cards = dbc.Row([
         dbc.Col(
             create_kpi_card(
@@ -2668,7 +2678,7 @@ def render_human(min_year, max_year, language='english'):
             ], width={"size": 7, "order": 12 if language == "english" else 1}, className="mb-4"),
         ], className="chart-row align-items-stretch"),
         
-        # Advanced education levels with newly added insights
+        # Advanced education levels with insights
         dbc.Row([
             dbc.Col(
                 html.Div(dcc.Graph(figure=advanced_edu_fig), className="chart-container shadow-sm"),
@@ -2721,13 +2731,12 @@ def render_human(min_year, max_year, language='english'):
     
     return layout
 
-# Function to render Social Development tab with insights from PDF
+# Function to render Social Development tab with insights
 def render_social(min_year, max_year, language='english'):
     # Filter data by year range
     filtered_df = social_df[(social_df['Year'] >= min_year) & (social_df['Year'] <= max_year)]
     
     # Create Sanitation Services chart with handling for NaN values and connected gaps
-    # Drop NaN values before creating chart
     sanitation_df = filtered_df.dropna(subset=['Share of the population using safely managed sanitation services'])
     
     if not sanitation_df.empty:
@@ -2930,7 +2939,7 @@ def render_social(min_year, max_year, language='english'):
     )
     stem_ict_fig.update_traces(line=dict(width=3), marker=dict(size=8), connectgaps=True)
     
-    # Create Programming Skills chart with improved styling
+    # Create Programming Skills chart
     programming_fig = px.line(
         filtered_df,
         x='Year',
@@ -3042,7 +3051,7 @@ def render_social(min_year, max_year, language='english'):
         prog_value = get_translation("N/A", language)
         prog_global_compare = ""
     
-    # Create KPI cards for social development section with modern styling
+    # Create KPI cards for social development section
     kpi_cards = dbc.Row([
         dbc.Col(
             create_kpi_card(
